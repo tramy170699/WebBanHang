@@ -1,0 +1,39 @@
+﻿@using WebBanHang.Models.Entity
+@using System.Data.Entity;
+@{
+    ViewBag.Title = "ListDonDat";
+    List<DonDatHang> donDatHang = ViewBag.donDatHang;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="cart-table-area section-padding-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-lg-12">
+                <div class="cart-title mt-50">
+                    <h2>Shopping Cart</h2>
+                </div>
+
+                <div class="cart-table clearfix">
+                    <table class="table table-responsive" style="display: unset">
+                        <thead>
+                            <tr>
+                                <th style="max-width:5%">STT</th>
+                                <th style="max-width:18%">Số hiệu đơn</th>
+                                <th>Ngày đặt</th>
+                                <th style="max-width:10%">Giá</th>
+                                <th style="max-width:15%">Trạng thái</th>
+                                <th style="max-width:15%">Ghi chú</th>
+                                <th style="max-width:15%">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

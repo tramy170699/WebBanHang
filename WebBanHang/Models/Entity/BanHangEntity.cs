@@ -5,10 +5,10 @@ namespace WebBanHang.Models.Entity
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class Model1 : DbContext
+    public partial class BanHangEntity : DbContext
     {
-        public Model1()
-            : base("name=Model1")
+        public BanHangEntity()
+            : base("name=BanHangEntity")
         {
         }
 
@@ -33,6 +33,11 @@ namespace WebBanHang.Models.Entity
                 .Property(e => e.AnhDaiDien)
                 .IsUnicode(false);
 
+            modelBuilder.Entity<LoaiSanPham>()
+                .HasMany(e => e.LoaiSanPham1)
+                .WithOptional(e => e.LoaiSanPham2)
+                .HasForeignKey(e => e.LoaiSanPhamPID);
+
             modelBuilder.Entity<NhaCungCap>()
                 .Property(e => e.SoDienThoai)
                 .IsUnicode(false);
@@ -40,6 +45,11 @@ namespace WebBanHang.Models.Entity
             modelBuilder.Entity<NhaCungCap>()
                 .Property(e => e.Email)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<PhanLoai>()
+                .HasMany(e => e.LoaiSanPhams)
+                .WithOptional(e => e.PhanLoai)
+                .HasForeignKey(e => e.LoaiSanPhamPID);
 
             modelBuilder.Entity<SanPham>()
                 .Property(e => e.KyHieuSanPham)

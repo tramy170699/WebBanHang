@@ -1,42 +1,200 @@
-﻿<!DOCTYPE html>
-<html>
+﻿@using WebBanHang.Models.Entity;
+@inherits System.Web.Mvc.WebViewPage
+@{
+   
+}
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!-- Title  -->
+    <title>Shop Online</title>
+    <!-- Favicon  -->
+    <link rel="icon" href="~/Content_Web/img/core-img/favicon.ico">
+    <!-- Core Style CSS -->
+    <link rel="stylesheet" href="~/Content_Web/css/core-style.css">
+    <link rel="stylesheet" href="~/Content_Web/style.css">
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <!-- Search Wrapper Area Start -->
+    <div class="search-wrapper section-padding-100">
+        <div class="search-close">
+            <i class="fa fa-close" aria-hidden="true"></i>
+        </div>
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
+            <div class="row">
+                <div class="col-12">
+                    <div class="search-content">
+                        <form action="#" method="get">
+                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                            <button type="submit"><img src="~/Content_Web/img/core-img/search.png" alt=""></button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <!-- Search Wrapper Area End -->
+    <!-- ##### Main Content Wrapper Start ##### -->
+    <div class="main-content-wrapper d-flex clearfix">
+        <!-- Mobile Nav (max width 767px)-->
+        <div class="mobile-nav">
+            <!-- Navbar Brand -->
+            <div class="amado-navbar-brand">
+                <a href="~/Home/Index"><img src="~/Content_Web/img/core-img/logo.png" alt=""></a>
+            </div>
+            <!-- Navbar Toggler -->
+            <div class="amado-navbar-toggler">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <!-- Header Area Start -->
+        <header class="header-area clearfix">
+            <!-- Close Icon -->
+            <div class="nav-close">
+                <i class="fa fa-close" aria-hidden="true"></i>
+            </div>
+            <!-- Logo -->
+            <div class="logo">
+                <a href="~/Home/Index"><img src="~/Content_Web/img/core-img/logo.png" alt=""></a>
+            </div>
+            <!-- Amado Nav -->
+            <nav class="amado-nav">
+                <ul>
+                    <li class="active"><a href="~/Home/Index">Trang chủ</a></li>
+                    <li><a href="~/Home/ListDonDat">Đơn đặt hàng</a></li>
+                </ul>
+            </nav>
+
+            <div class="cart-fav-search mb-100">
+                <a href="~/Home/CartView" class="cart-nav">
+                    <img src="~/Content_Web/img/core-img/cart.png" alt=""> Giỏ hàng
+                    <span class="ex5">
+
+                    </span>
+                </a>
+                <a href="~/Home/Create" class="fav-nav"><img src="~/Content_Web/img/core-img/favorites.png" alt="">Đăng ký</a>
+
+            </div>
+        </header>
+        <!-- Header Area End -->
+        <!-- Product Catagories Area Start -->
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+        <!-- Product Catagories Area End -->
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <section class="newsletter-area section-padding-100-0">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Newsletter Text -->
+                <div class="col-12 col-lg-6 col-xl-7">
+                    <div class="newsletter-text mb-100">
+                        <h2>Để lại Email để nhận lịch sale sớm nhất </h2>
+                        <p>Chất lượng sản phẩm luôn được đảm bảo với người tiêu dùng.</p>
+                    </div>
+                </div>
+                <!-- Newsletter Form -->
+                <div class="col-12 col-lg-6 col-xl-5">
+                    <div class="newsletter-form mb-100">
+                        <form action="#" method="post">
+                            <input type="email" name="email" class="nl-email" placeholder="Địa chỉ Email của bạn">
+                            <input type="submit" value="Đăng ký">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Newsletter Area End ##### -->
+    <!-- ##### Footer Area Start ##### -->
+    <footer class="footer_area clearfix">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Single Widget Area -->
+                <div class="col-12 col-lg-4">
+                    <div class="single_widget_area">
+                        <!-- Logo -->
+                        <div class="footer-logo mr-50">
+                            <a href="~/Home/Index"><img src="img/core-img/logo2.png" alt=""></a>
+                        </div>
+                        <!-- Copywrite Text -->
+                        <p class="copywrite">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                         
+                            <script>document.write(new Date().getFullYear());</script>  | This web is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank"> My & Hưng </a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
+                    </div>
+                </div>
+                <!-- Single Widget Area -->
+                <div class="col-12 col-lg-8">
+                    <div class="single_widget_area">
+                        <!-- Footer Menu -->
+                        <div class="footer_menu">
+                            <nav class="navbar navbar-expand-lg justify-content-end">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#footerNavContent" aria-controls="footerNavContent" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
+                                <div class="collapse navbar-collapse" id="footerNavContent">
+                                    <ul class="navbar-nav ml-auto">
+                                        <li class="nav-item active">
+                                            <a class="nav-link" href="~/Home/Index">Trang chủ</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="~/Home/CartView">Giỏ hàng</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="~/Home/ListDonDat">Đơn đặt hàng</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ##### Footer Area End ##### -->
+    <!-- ##### jQuery (Necessary for All JavaScript Plugins) ##### -->
+    <script src="~/Content_Web/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="~/Content_Web/js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="~/Content_Web/js/bootstrap.min.js"></script>
+    <!-- Plugins js -->
+    <script src="~/Content_Web/js/plugins.js"></script>
+    <!-- Active js -->
+    <script src="~/Content_Web/js/active.js"></script>
 </body>
 </html>
+<style>
+
+    .ex5 {
+        right: 61%;
+        top: -15%;
+        content: attr(data-count);
+        font-size: 14px;
+        padding: 5px;
+        padding-bottom: 3px;
+        padding-top: 3px;
+        border-radius: 65%;
+        line-height: 1em;
+        color: white !important;
+        background: rgba(255,0,0,.85);
+        text-align: center;
+        min-width: 1.5em;
+    }
+</style>
+<script>
+    function LockOut() {
+        //alert(henTu);
+        var url = '/Users/Logout'
+        if (confirm("Bạn có chắc muốn đăng xuất?")) {
+            window.location.href = url;
+        }
+
+    }
+</script>
