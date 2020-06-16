@@ -21,6 +21,14 @@ namespace WebBanHang.Controllers
 
 
         // GET: LoaiSanPham
+        /// <summary>
+        /// //
+        /// </summary>
+        /// <param name="sortOrder"></param>
+        /// <param name="currentFilter"></param>
+        /// <param name="searchString"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
