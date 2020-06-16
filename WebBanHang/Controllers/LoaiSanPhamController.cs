@@ -19,7 +19,7 @@ namespace WebBanHang.Controllers
             return lst;
         }
 
-
+        // tesst git
         // GET: LoaiSanPham
         public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
@@ -54,7 +54,7 @@ namespace WebBanHang.Controllers
             int pageSize = 5;
             int pageNumber = (page ?? 1);
             return View(lstLoaiSanPham.ToPagedList(pageNumber, pageSize));
-
+            /// test
         }
 
     }
