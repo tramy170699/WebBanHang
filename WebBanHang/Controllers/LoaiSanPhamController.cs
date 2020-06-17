@@ -64,6 +64,54 @@ namespace WebBanHang.Controllers
             return View(lstLoaiSanPham.ToPagedList(pageNumber, pageSize));
 
         }
+        public ActionResult Details(int id)
+        {
+
+            using (var db = new BanHangEntity())
+            {
+                try
+                {
+                    var loaiSanPham = db.LoaiSanPhams.Include("LoaiSanPham2").FirstOrDefault(x => x.LoaiSanPhamID == id);
+                    return View(loaiSanPham);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return new HttpStatusCodeResult(404, "Error in cloud - GetPLUInfo" + ex.Message);
+                }
+            }
+        }
+        public ActionResult Delete(int id)
+        {
+            using (var db = new BanHangEntity())
+            {
+                try
+                {
+                    var loaiSanPham = db.LoaiSanPhams.Include("LoaiSanPham2").FirstOrDefault(x => x.LoaiSanPhamID == id);
+                    return View(loaiSanPham);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return new HttpStatusCodeResult(404, "Error in cloud - GetPLUInfo" + ex.Message);
+                }
+            }
+        }
+        [HttpPost]
+        public ActionResult Delete(float id)
+        {
+            using (var db = new BanHangEntity())
+            {
+                LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
+                if (loaiSanPham != null)
+                {
+                    db.LoaiSanPhams.Remove(loaiSanPham);
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("/Index");
+        }
+
 
     }
 }
