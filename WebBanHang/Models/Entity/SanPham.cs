@@ -43,21 +43,19 @@
         [AllowHtml]
         public string MoTa { get; set; }
 
-        [StringLength(100)]
-        public string NhaSanXuat { get; set; }
+        //[StringLength(100)]
+        //public string NhaSanXuat { get; set; }
 
         public bool? AnHienSanPham { get; set; }
 
-        public bool? AnHienNhaSanXuat { get; set; }
+        //public bool? AnHienNhaSanXuat { get; set; }
 
         [Required(ErrorMessage = "Giá bán sản phẩm là bắt buộc!")]
         [RegularExpression(@"^[0-9]+[0-9'\s]*$", ErrorMessage = "Giá sản phẩm chỉ gồm ký tự số!")]
         public double? GiaBan { get; set; }
 
-        [StringLength(50)]
-        public string ToaNha { get; set; }
 
-        public int? ThuTu { get; set; }
+        //public int? ThuTu { get; set; }
 
         public DateTime? NgayDang { get; set; }
 
