@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebBanHang.Models.Entity;
 
-namespace WEBBANHANG.Controllers
+namespace WebBanHang.Controllers
 {
     public class SanPhamController : Controller
     {
@@ -95,6 +95,50 @@ namespace WEBBANHANG.Controllers
             var lstLoaiSanPham = db.SanPhams.SqlQuery(query);
             return View(lstLoaiSanPham.ToPagedList(pageNumber, pageSize));
             //}
+        }
+        public ActionResult Create()
+        {
+            using (var db = new BanHangEntity())
+            {
+                SanPham sp = new SanPham();
+                sp.LoaiSanPhamCollection = db.LoaiSanPhams.ToList<LoaiSanPham>();
+                sp.DonViTinhCollection = db.DonViTinhs.ToList<DonViTinh>();
+                sp.NhaCungCapCollection = db.NhaCungCaps.ToList<NhaCungCap>();
+                return View(sp);
+            }
+        }
+        [HttpPost]
+        public ActionResult Create(SanPham sanpham)
+        {
+            if (ModelState.IsValid)
+            {
+                if (sanpham.ImageFile.FileName != null)
+                {
+                    string fileName = Path.GetFileNameWithoutExtension(sanpham.ImageFile.FileName);
+                    string extension = Path.GetExtension(sanpham.ImageFile.FileName);
+                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    sanpham.AnhSanPham = "~/FileUpload/" + fileName;
+                    fileName = Path.Combine(Server.MapPath("~/FileUpload/"), fileName);
+                    sanpham.ImageFile.SaveAs(fileName);
+                }
+                using (var db = new BanHangEntity())
+                {
+                    db.SanPhams.Add(sanpham);
+                    db.SaveChanges();
+                    return RedirectToAction("Edit", "SanPham", new { id = sanpham.SanPhamID });
+                }
+            }
+            else
+            {
+                using (var db = new BanHangEntity())
+                {
+                    sanpham.LoaiSanPhamCollection = db.LoaiSanPhams.ToList<LoaiSanPham>();
+                    sanpham.DonViTinhCollection = db.DonViTinhs.ToList<DonViTinh>();
+                    sanpham.NhaCungCapCollection = db.NhaCungCaps.ToList<NhaCungCap>();
+
+                    return View(sanpham);
+                }
+            }
         }
     }
 }

@@ -59,9 +59,9 @@ namespace WebBanHang.Models.Entity
                 .Property(e => e.AnhSanPham)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<SanPham>()
-                .Property(e => e.ThuongHieu)
-                .IsFixedLength();
+            //modelBuilder.Entity<SanPham>()
+            //    .Property(e => e.ThuongHieu)
+            //    .IsFixedLength();
 
             modelBuilder.Entity<User>()
                 .Property(e => e.Email)
