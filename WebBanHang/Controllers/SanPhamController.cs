@@ -12,7 +12,7 @@ namespace WebBanHang.Controllers
     public class SanPhamController : Controller
     {
         BanHangEntity db;
-        List<SanPham> getlstSanpham()
+        List<SanPham> GetlstSanpham()
         {
             db = new BanHangEntity();
             var lst = db.SanPhams.SqlQuery("Select * from SanPham").ToList<SanPham>();
@@ -198,6 +198,51 @@ namespace WebBanHang.Controllers
                     }
                 }
             //}
+        }
+        public ActionResult Delete(int id )
+        {
+            if (Session["username"] == null)
+                return RedirectToAction("/Index", "Users");
+            else
+            {
+                using (var db = new BanHangEntity())
+                {
+                    try
+                    {
+                        var sanPham = db.SanPhams.Include("LoaiSanPham").Include("DonViTinh").Include("NhaCungCap").FirstOrDefault(x => x.SanPhamID == id);
+                        return View(sanPham);
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        return new HttpStatusCodeResult(404, "Error in cloud - GetPLUInfo" + ex.Message);
+                    }
+                }
+            }
+        }
+        [HttpPost]
+        public ActionResult Delete(float id)
+        {
+            using (var db = new BanHangEntity())
+            {
+                var sanPham = db.SanPhams.Include("LoaiSanPham").Include("DonViTinh").Include("NhaCungCap").FirstOrDefault(x => x.SanPhamID == id);
+                if(sanPham != null)
+                {
+                    if(sanPham.ChiTietDonDatHangs.Count()!=0)
+                    {
+                        ViewData["Loi1"] = "Sản Phẩm đã có người đật, không thể xóa";
+                        return View(sanPham);
+                    }
+                    else
+                    {
+                        db.SanPhams.Remove(sanPham);
+                        db.SaveChanges();
+                    }
+                }
+                return View(sanPham);
+            }
+           
+            //return RedirectToAction("/Index");
         }
 
     }
