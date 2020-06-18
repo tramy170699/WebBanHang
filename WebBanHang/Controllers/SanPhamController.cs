@@ -244,6 +244,27 @@ namespace WebBanHang.Controllers
            
             //return RedirectToAction("/Index");
         }
+        public ActionResult Details(int id)
+        {
+            //if (Session["username"] == null)
+            //    return RedirectToAction("/Index", "Users");
+            //else
+            //{
+                using (var db = new BanHangEntity())
+                {
+                    try
+                    {
+                        var sanPham = db.SanPhams.Include("LoaiSanPham").Include("DonViTinh").Include("NhaCungCap").FirstOrDefault(x => x.SanPhamID == id);
+                        return View(sanPham);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        return new HttpStatusCodeResult(404, "Error in cloud - GetPLUInfo" + ex.Message);
+                    }
+                }
+            //}
+        }
 
     }
 }
