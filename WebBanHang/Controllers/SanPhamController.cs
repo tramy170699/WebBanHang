@@ -201,10 +201,10 @@ namespace WebBanHang.Controllers
         }
         public ActionResult Delete(int id )
         {
-            if (Session["username"] == null)
-                return RedirectToAction("/Index", "Users");
-            else
-            {
+            //if (Session["username"] == null)
+            //    return RedirectToAction("/Index", "Users");
+            //else
+            //{
                 using (var db = new BanHangEntity())
                 {
                     try
@@ -218,7 +218,7 @@ namespace WebBanHang.Controllers
                         return new HttpStatusCodeResult(404, "Error in cloud - GetPLUInfo" + ex.Message);
                     }
                 }
-            }
+            //}
         }
         [HttpPost]
         public ActionResult Delete(float id)
