@@ -1,4 +1,4 @@
-namespace WebBanHang.Models.Entity
+﻿namespace WebBanHang.Models.Entity
 {
     using System;
     using System.Collections.Generic;
@@ -17,15 +17,21 @@ namespace WebBanHang.Models.Entity
 
         public int NhaCungCapID { get; set; }
 
+        [Required(ErrorMessage = "Tên nhà cung cấp là bắt buộc!")]
         [StringLength(500)]
         public string TenNhaCungCap { get; set; }
 
         [StringLength(500)]
         public string DiaChi { get; set; }
 
-        [StringLength(50)]
+        [Required(ErrorMessage = "Số điện thoại là bắt buộc!")]
+        [StringLength(13, MinimumLength = 8, ErrorMessage = "Trường số điện thoại có độ dài từ 8 - 13 ký tự!")]
+        [RegularExpression(@"^[0-9]+[0-9'\s]*$", ErrorMessage = "Số điện thoại chỉ gồm ký tự số!")]
+       
         public string SoDienThoai { get; set; }
 
+        [Required(ErrorMessage = "Email nhà cung cấp là bắt buộc!")]
+        [EmailAddress]
         [StringLength(100)]
         public string Email { get; set; }
 
