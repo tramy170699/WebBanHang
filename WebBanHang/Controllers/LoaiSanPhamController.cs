@@ -65,7 +65,7 @@ namespace WebBanHang.Controllers
             return View(lstLoaiSanPham.ToPagedList(pageNumber, pageSize));
 
         }
-        public ActionResult create()
+        public ActionResult Create()
         {
 
             return View();
