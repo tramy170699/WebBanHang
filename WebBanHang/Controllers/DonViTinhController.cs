@@ -76,6 +76,89 @@ namespace WebBanHang.Controllers
             }
             return View(donViTinh);
         }
+        public ActionResult Edit(int id)
+        {
+            using (var db = new BanHangEntity())
+            {
+                try
+                {
+                    DonViTinh us = db.DonViTinhs.Find(id);
+                    return View(us);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return new HttpStatusCodeResult(404, "Error in cloud - GetPLUInfo" + ex.Message);
+                }
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Edit(DonViTinh donvi)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var db = new BanHangEntity())
+                {
+                    db.Entry(donvi).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Index");
+            }
+            return View(donvi);
+        }
+        public ActionResult Delete(int id)
+        {
+            using (var db = new BanHangEntity())
+            {
+                try
+                {
+                    DonViTinh donvi = db.DonViTinhs.Find(id);
+                    return View(donvi);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return new HttpStatusCodeResult(404, "Error in cloud - GetPLUInfo" + ex.Message);
+                }
+            }
+        }
+        [HttpPost]
+        public ActionResult Delete(float id)
+        {
+            DonViTinh donvi = db.DonViTinhs.Find(id);
+            if(donvi!=null)
+            {
+                if (db.SanPhams.Any(x => x.DonViTinhID == donvi.DonViTinhID))
+                {
+                    TempData["mgs"] = "Đơn vị tính đã được sử dụng bởi sản phẩm!";
+                    return RedirectToAction("/Delete", "DonViTinh", new { id = donvi.DonViTinhID });
+                }
+                else
+                {
+                    db.DonViTinhs.Remove(donvi);
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("/ Index");
+        }
+
+        public ActionResult Details(int id)
+        {
+            using(var db=new BanHangEntity())
+            {
+                try
+                {
+                    DonViTinh donvi = db.DonViTinhs.Find(id);
+                    return View(donvi);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return new HttpStatusCodeResult(404, "Error in cloud - GetPLUInfo" + ex.Message);
+                }
+            }
+        }
         //--
     }
 }
