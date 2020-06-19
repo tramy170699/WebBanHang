@@ -115,24 +115,7 @@ namespace WebBanHang.Controllers
                 }
             }
         }
-        public ActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Create(LoaiSanPham loaiSanPham)
-        {
-            if (ModelState.IsValid)
-            {
-                using (var db = new BanHangEntity())
-                {
-                    db.LoaiSanPhams.Add(loaiSanPham);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-            }
-            return View(loaiSanPham);
-        }
+        
         public ActionResult Delete(int id)
         {
             using (var db = new BanHangEntity())
