@@ -5,6 +5,8 @@ namespace WebBanHang.Models.Entity
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Web;
+
 
     [Table("LoaiSanPham")]
     public partial class LoaiSanPham
@@ -37,5 +39,7 @@ namespace WebBanHang.Models.Entity
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SanPham> SanPhams { get; set; }
+        [NotMapped]
+        public HttpPostedFileBase ImageFile { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using PagedList;
@@ -10,7 +11,7 @@ namespace WebBanHang.Controllers
 {
     public class LoaiSanPhamController : Controller
     {
-       
+
         BanHangEntity db;
         List<LoaiSanPham> getlstLoaiSanPham()
         {
@@ -64,6 +65,39 @@ namespace WebBanHang.Controllers
             return View(lstLoaiSanPham.ToPagedList(pageNumber, pageSize));
 
         }
+        public ActionResult create()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Create(LoaiSanPham loaiSanPham)
+        {
+
+
+            if (ModelState.IsValid)
+            {
+                if (loaiSanPham.ImageFile != null)
+                {
+                    string fileName = Path.GetFileNameWithoutExtension(loaiSanPham.ImageFile.FileName);
+                    string extension = Path.GetExtension(loaiSanPham.ImageFile.FileName);
+                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    loaiSanPham.AnhDaiDien = "~/FileUpload/" + fileName;
+                    fileName = Path.Combine(Server.MapPath("~/FileUpload/"), fileName);
+                    loaiSanPham.ImageFile.SaveAs(fileName);
+                }
+
+                using (var db = new BanHangEntity())
+                {
+                    db.LoaiSanPhams.Add(loaiSanPham);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            return View(loaiSanPham);
+
+        }
+
         public ActionResult Details(int id)
         {
 
@@ -112,6 +146,50 @@ namespace WebBanHang.Controllers
             return RedirectToAction("/Index");
         }
 
+        public ActionResult Edit(int id)
+        {
+
+            using (var db = new BanHangEntity())
+            {
+                try
+                {
+                    LoaiSanPham loaiSanPham = db.LoaiSanPhams.Find(id);
+                    return View(loaiSanPham);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return new HttpStatusCodeResult(404, "Error in cloud - GetPLUInfo" + ex.Message);
+                }
+            }
+
+
+        }
+        [HttpPost]
+        public ActionResult Edit(LoaiSanPham dv)
+        {
+
+
+            if (ModelState.IsValid)
+            {
+                if (dv.ImageFile != null)
+                {
+                    string fileName = Path.GetFileNameWithoutExtension(dv.ImageFile.FileName);
+                    string extension = Path.GetExtension(dv.ImageFile.FileName);
+                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    dv.AnhDaiDien = "~/FileUpload/" + fileName;
+                    fileName = Path.Combine(Server.MapPath("~/FileUpload/"), fileName);
+                    dv.ImageFile.SaveAs(fileName);
+                }
+                using (var db = new BanHangEntity())
+                {
+                    db.Entry(dv).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Index");
+            }
+            return View(dv);
+        }
 
     }
 }

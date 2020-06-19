@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebBanHang.Models.Entity;
 
-namespace WEBBANHANG.Controllers
+namespace WebBanHang.Controllers
 {
     public class SanPhamController : Controller
     {
