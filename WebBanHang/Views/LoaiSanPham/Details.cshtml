@@ -2,15 +2,13 @@
 @using WebBanHang.Models.Entity
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Danh mục";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Delete</h2>
+<h2>Chi tiết danh mục</h2>
 
-<h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>LoaiSanPham</h4>
     <hr />
     <div class="dl-horizontal">
         <div class="col-md-4">
@@ -46,23 +44,15 @@
                      @Html.DisplayFor(model => model.MoTa)
                 </pre>
             </div>
-
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-
-                <div class="col-md-12 no-color" style="padding: 0px">
-                    <input type="submit" value="Xóa" class="btn btn-default" />
-
-                </div>
-            }
         </div>
 
     </div>
-
-    <div class="col-md-12" style="padding: 15px">
-        <button onclick="location.href='@Url.Action("Index","LoaiSanPham")'">
-            <i class="fa fa-fw fa-arrow-left"></i> Về danh sách
-        </button>
-    </div>
+</div>
+<div class="col-md-12" style="padding: 15px">
+    <button onclick="location.href='@Url.Action("Index","LoaiSanPham")'">
+        <i class="fa fa-fw fa-arrow-left"></i> Về danh sách
+    </button>
+    <button onclick="location.href='@Url.Action("Edit","LoaiSanPham", new { id = Model.LoaiSanPhamID })'">
+        Chỉnh sửa
+    </button>
 </div>

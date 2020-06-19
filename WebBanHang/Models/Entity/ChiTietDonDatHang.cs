@@ -15,7 +15,8 @@ namespace WebBanHang.Models.Entity
 
         public int? SanPhamID { get; set; }
 
-        public int? SoLuongGiaXuat { get; set; }
+        public int? SoLuong { get; set; }
+        public double? GiaXuat { get; set; }
 
         public virtual DonDatHang DonDatHang { get; set; }
 
