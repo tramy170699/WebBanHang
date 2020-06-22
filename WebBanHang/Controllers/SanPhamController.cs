@@ -226,11 +226,11 @@ namespace WebBanHang.Controllers
             using (var db = new BanHangEntity())
             {
                 var sanPham = db.SanPhams.Include("LoaiSanPham").Include("DonViTinh").Include("NhaCungCap").FirstOrDefault(x => x.SanPhamID == id);
-                if(sanPham != null)
+                if (sanPham != null)
                 {
-                    if(sanPham.ChiTietDonDatHangs.Count()!=0)
+                    if (sanPham.ChiTietDonDatHangs.Count() != 0)
                     {
-                        ViewData["Loi1"] = "Sản Phẩm đã có người đật, không thể xóa";
+                        ViewData["Loi1"] = "Sản phẩm đã có người đặt, không thể xóa";
                         return View(sanPham);
                     }
                     else
@@ -239,10 +239,8 @@ namespace WebBanHang.Controllers
                         db.SaveChanges();
                     }
                 }
-                return View(sanPham);
             }
-           
-            //return RedirectToAction("/Index");
+            return RedirectToAction("/Index");
         }
         public ActionResult Details(int id)
         {

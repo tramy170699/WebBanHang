@@ -10,7 +10,21 @@
         @foreach (var i in lst)
         {
             <div class="single-products-catagory clearfix" style="padding:10px">
+                @{
+                    var url = "/Home/ListProductView?loaiSanPhamID=" + i.LoaiSanPhamID;
+                }
+                <a href="@url">
+                    @{
+                        var imageSource = i.AnhDaiDien == null ? "" : Url.Content(i.AnhDaiDien);
+                    }
+                    <img src="@imageSource" alt="Image" style="height:300px;" />
+                    <!-- Hover Content -->
+                    <div class="hover-content">
+                        <div class="line"></div>
 
+                        <h3><b>@i.TenLoai</b></h3>
+                    </div>
+                </a>
             </div>
         }
     </div>
