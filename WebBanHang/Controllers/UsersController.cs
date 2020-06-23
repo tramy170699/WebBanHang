@@ -20,6 +20,69 @@ namespace WebBanHang.Controllers
             return lst;
         }
 
+        public ActionResult Logout()
+        {
+            Session["username"] = null;
+            return RedirectToAction("/Index");
+        }
+        public ActionResult Home()
+        {
+            if (Session["username"] == null)
+                return RedirectToAction("/Index", "Users");
+            else
+                return View();
+        }
+        [HttpPost]
+        public ActionResult Test()
+        {
+            string us = Request.Form["us"];
+            string mk = Request.Form["mk"];
+            List<User> lstUser = getlstUser();
+            User u = lstUser.Find(x => x.TaiKhoan.Equals(us));
+            if (u != null)
+            {
+                if (u.PassWord.Equals(mk))
+                {
+                    Session["usernameid"] = u.UserID;
+                    Session["username"] = us;
+                    Session["user"] = (User)u;
+                    var donDatHang = db.DonDatHangs.Where(x => x.TaiKhoanDatHangID == u.UserID && x.TinhTrang == 0).FirstOrDefault();
+                    if (donDatHang != null)
+                    {
+                        int? soluong = 0;
+                        for (int i = 0; i < donDatHang.ChiTietDonDatHangs.Count(); i++)
+                        {
+                            soluong = soluong + donDatHang.ChiTietDonDatHangs.ElementAt(i).SoLuong;
+                        }
+                        Session["soluong"] = soluong;
+                    }
+                    else
+                    {
+                        Session["soluong"] = 0;
+                    }
+
+                    TempData["msg"] = "Đăng nhập thành công nhé!";
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    TempData["msg"] = "Tên tài khoản và mật khẩu không hợp lệ!";
+                    //return RedirectToAction("Index");
+                    return PartialView("~/Views/Shared/LoginLoi.cshtml");
+                }
+
+
+            }
+            else
+            {
+                TempData["msg"] = "Tên tài khoản và mật khẩu không hợp lệ!";
+                //return RedirectToAction("Index");
+                return PartialView("~/Views/Shared/LoginLoi.cshtml");
+            }
+
+        }
+
+        
         public ActionResult Index()
         {
             return View();
