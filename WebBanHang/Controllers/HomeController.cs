@@ -372,10 +372,39 @@ namespace WebBanHang.Controllers
             }
         }
 
-        public ActionResult DeleteItem()
+        public ActionResult DeleteItem(int SanPhamID)
         {
-            return View();
+
+            using (var db = new BanHangEntity())
+            {
+                if (Session["username"] == null)
+                {
+                    return RedirectToAction("/Index", "Users");
+                }
+                else
+                {
+                    int id = (int)Session["usernameid"];
+                    //var lstSanPham = db.SanPhams.Include(x => x.ChiTietDonDatHangs).ToList();
+                    var donDatHang = db.DonDatHangs.Where(x => x.TaiKhoanDatHangID == id && x.TinhTrang == 0).FirstOrDefault();
+                    var chiTiet = db.ChiTietDonDatHangs.Where(x => x.SanPhamID == SanPhamID && x.DonDatHangID == donDatHang.DonDatHangID).FirstOrDefault();
+                    if (donDatHang != null)
+                    {
+                        donDatHang.ChiTietDonDatHangs.Remove(chiTiet);
+                        db.SaveChanges();
+                        int? soluong = 0;
+                        foreach (var i in donDatHang.ChiTietDonDatHangs)
+                        {
+                            soluong = soluong + i.SoLuong;
+                        }
+                        Session["soluong"] = soluong;
+                    }
+
+                    return RedirectToAction("/CartView", "Home");
+                }
+            }
+
         }
+
         public ActionResult CheckOutView()
         {
            

@@ -2,8 +2,8 @@
 @using System.Data.Entity;
 @{
     BanHangEntity db = new BanHangEntity();
-    //var lstSanPham = db.SanPhams.Include(x => x.ChiTietDonDatHangs).ToList();
-    //lstSanPham = ViewBag.lstSanPham;
+    var lstSanPham = db.SanPhams.Include(x => x.ChiTietDonDatHangs).ToList();
+    lstSanPham = ViewBag.lstSanPham;
     ViewBag.Title = "CartView";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -70,7 +70,7 @@
                                                     <span>$@i.SanPham.GiaBan</span>
                                                 </td>
                                                 @{
-                                                    //var soLuong = i.ChiTietDonDatHangs;
+                                                    // var soLuong =i.ChiTietDonDatHangs;
                                                     int? sl;
                                                     if (i.SoLuong != null)
                                                     {
@@ -82,7 +82,7 @@
                                                     }
                                                 }
                                                 <td class="quantity" style="max-width:20%">
-                                                    <span>@sl</span>
+                                               <span>@sl</span>
                                                 </td>
                                                 <td class="huy" style="max-width:20%">
                                                     <a href="javascript: DeleteProduct(@i.SanPhamID)" class="fav-nav"><img src="~/Content_Web/img/core-img/remove_product_delete-512.png" alt=""> Huỷ</a>
