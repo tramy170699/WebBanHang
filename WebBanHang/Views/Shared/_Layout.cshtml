@@ -1,6 +1,9 @@
 ﻿@using WebBanHang.Models.Entity;
 @inherits System.Web.Mvc.WebViewPage
 @{
+  
+ 
+     
 
 }
 <!DOCTYPE html>
@@ -73,9 +76,9 @@
             <div class="cart-fav-search mb-100">
                 <a href="~/Home/CartView" class="cart-nav">
                     <img src="~/Content_Web/img/core-img/cart.png" alt=""> Giỏ hàng
-                    <span class="ex5">
-
-                    </span>
+                    @*<span class="ex5">
+                      //  @soluong
+                    </span>*@
                 </a>
 
 
@@ -83,12 +86,12 @@
                 <a href="~/Home/Create" class="fav-nav"><img src="~/Content_Web/img/core-img/favorites.png" alt="">Đăng ký</a>
                 <a onclick="LockOut()" href="#" class="fav-nav"><img src="~/Content_Web/img/core-img/favorites.png" alt="">Đăng xuất</a>
                 @*@{
-                         User u = (User)(Session["user"]);                        
-                        if (u.LoaiUser == 2)
-                        {
-                        <a href="~/LoaiSanPham/Index" class="search-nav"><img src="~/Content_Web/img/core-img/search.png" alt=""> Admin</a>
-                }
-                }*@
+                             User u = (User)(Session["user"]);
+                            if (u.LoaiUser == 2)
+                            {
+                            <a href="~/LoaiSanPham/Index" class="search-nav"><img src="~/Content_Web/img/core-img/search.png" alt=""> Admin</a>
+                    }
+                    }*@
             </div>
 
         </header>
@@ -135,7 +138,7 @@
                         <!-- Copywrite Text -->
                         <p class="copywrite">
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                         
+
                             <script>document.write(new Date().getFullYear());</script>  | This web is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank"> My & Hưng </a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </p>
