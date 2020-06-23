@@ -21,23 +21,23 @@ namespace WebBanHang.Controllers
         BanHangEntity db = new BanHangEntity();
         public ActionResult Index()
         {
-            if (Session["username"] == null)
-                return RedirectToAction("/Index", "Users");
-            else
-            {
-                int id = (int)Session["usernameid"];
-                var donDatHang = db.DonDatHangs.Where(x => x.TaiKhoanDatHangID == id && x.TinhTrang == 0).FirstOrDefault();
+            //if (Session["username"] == null)
+            //    return RedirectToAction("/Index", "Users");
+            //else
+            //{
+            //    int id = (int)Session["usernameid"];
+            //    var donDatHang = db.DonDatHangs.Where(x => x.TaiKhoanDatHangID == id && x.TinhTrang == 0).FirstOrDefault();
 
                 return View();
-            }
+            //}
         }
         //Home
         public ActionResult ListProductView(int? loaiSanPhamID, int? khoangGiaTu, int? khoangGiaDen, string laMoi, string sortOrder, string currentFilter, string tenSanPham, int? page)
         {
-            if (Session["username"] == null)
-                return RedirectToAction("/Index", "Users");
-            else
-            {
+            //if (Session["username"] == null)
+            //    return RedirectToAction("/Index", "Users");
+            //else
+            //{
                 ViewBag.CurrentSort = sortOrder;
                 ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
                 ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
@@ -101,7 +101,7 @@ namespace WebBanHang.Controllers
                 }
 
 
-            }
+            //}
         }
         [HttpPost]
         public ActionResult ListProduct(int id)
@@ -111,14 +111,14 @@ namespace WebBanHang.Controllers
 
         public ActionResult DetailProductView(int sanPhamID)
         {
-            if (Session["username"] == null)
-                return RedirectToAction("/Index", "Users");
-            else
-            {
+            //if (Session["username"] == null)
+            //    return RedirectToAction("/Index", "Users");
+            //else
+            //{
                 var sanPham = db.SanPhams.Include(x => x.NhaCungCap).Include(x => x.ThuocTinhSanPhams.Select(y => y.ThuocTinh)).Where(x => x.SanPhamID == sanPhamID).FirstOrDefault();
                 ViewBag.sanPham = sanPham;
                 return View(sanPham);
-            }
+            //}
 
         }
         [HttpPost]
@@ -145,29 +145,29 @@ namespace WebBanHang.Controllers
         {
             using (var db = new BanHangEntity())
             {
-                if (Session["username"] == null)
-                {
-                    return RedirectToAction("/Index", "Users");
-                }
-                else
-                {
-                    int id = (int)Session["usernameid"];
-                    var donDatHang = db.DonDatHangs.Include(x => x.ChiTietDonDatHangs.Select(y => y.SanPham)).Where(x => x.TaiKhoanDatHangID == id).ToList();
-                    ViewBag.donDatHang = donDatHang;
+                //if (Session["username"] == null)
+                //{
+                //    return RedirectToAction("/Index", "Users");
+                //}
+                //else
+                //{
+                //    int id = (int)Session["usernameid"];
+                //    var donDatHang = db.DonDatHangs.Include(x => x.ChiTietDonDatHangs.Select(y => y.SanPham)).Where(x => x.TaiKhoanDatHangID == id).ToList();
+                //    ViewBag.donDatHang = donDatHang;
                     return View();
-                }
+                //}
             }
         }
         public ActionResult ChiTietDon(int donDatHangID)
         {
             using (var db = new BanHangEntity())
             {
-                if (Session["username"] == null)
-                {
-                    return RedirectToAction("/Index", "Users");
-                }
-                else
-                {
+                //if (Session["username"] == null)
+                //{
+                //    return RedirectToAction("/Index", "Users");
+                //}
+                //else
+                //{
                     var donDatHang = db.DonDatHangs.Include(y => y.ChiTietDonDatHangs.Select(z => z.SanPham)).Where(x => x.DonDatHangID == donDatHangID).FirstOrDefault();
                     //ListSanPham lstSP = new ListSanPham();
                     //foreach(var i in donDatHang.ChiTietDonDatHangs)
@@ -179,7 +179,7 @@ namespace WebBanHang.Controllers
                     //}
                     ViewBag.donDatHang = donDatHang;
                     return View();
-                }
+                //}
             }
         }
         public ActionResult CartView()
