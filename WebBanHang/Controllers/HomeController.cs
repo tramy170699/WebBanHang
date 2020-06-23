@@ -182,6 +182,157 @@ namespace WebBanHang.Controllers
                 //}
             }
         }
+        [HttpPost]
+        public ActionResult Cart(int SanPhamID, int SoLuong)
+        {
+            using (var db = new BanHangEntity())
+            {
+                if (Session["username"] == null)
+                {
+                    return RedirectToAction("/Index", "Users");
+                }
+                else
+                {
+                    int id = (int)Session["usernameid"];
+                    DonDatHang donDatHang = new DonDatHang();
+                    donDatHang = db.DonDatHangs.Where(x => x.TaiKhoanDatHangID == id && x.TinhTrang == 0).FirstOrDefault();
+                    if (donDatHang != null)
+                    {
+                        ChiTietDonDatHang chiTietDonDatHang = new ChiTietDonDatHang();
+                        chiTietDonDatHang = donDatHang.ChiTietDonDatHangs.FirstOrDefault(x => x.SanPhamID == SanPhamID);
+
+                        if (chiTietDonDatHang != null)
+                        {
+                            chiTietDonDatHang.SoLuong = chiTietDonDatHang.SoLuong + SoLuong;
+                            db.Entry(chiTietDonDatHang).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            ChiTietDonDatHang chiTietDonDatHangadd = new ChiTietDonDatHang();
+                            chiTietDonDatHangadd.DonDatHangID = donDatHang.DonDatHangID;
+                            chiTietDonDatHangadd.SanPhamID = SanPhamID;
+                            chiTietDonDatHangadd.SoLuong = SoLuong;
+                            chiTietDonDatHangadd.GiaXuat = db.SanPhams.Find(SanPhamID).GiaBan;
+                            db.ChiTietDonDatHangs.Add(chiTietDonDatHangadd);
+                            db.SaveChanges();
+                        }
+                    }
+                    else
+                    {
+                        DonDatHang dondat = new DonDatHang();
+                        dondat.TaiKhoanDatHangID = id;
+                        dondat.NgayDat = DateTime.Now;
+                        var shd = "SHD" + DateTime.Now.Month + DateTime.Now.Day + DateTime.Now.Year + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second;
+                        dondat.SoHieuDon = shd;
+                        dondat.TinhTrang = TrangThaiDonHang.CHUA_GUI;
+                        ChiTietDonDatHang chiTietDonDatHang = new ChiTietDonDatHang();
+                        chiTietDonDatHang.SanPhamID = SanPhamID;
+                        chiTietDonDatHang.SoLuong = SoLuong;
+                        chiTietDonDatHang.GiaXuat = db.SanPhams.Find(SanPhamID).GiaBan;
+                        dondat.ChiTietDonDatHangs.Add(chiTietDonDatHang);
+                        db.DonDatHangs.Add(dondat);
+                        db.SaveChanges();
+                    }
+                    DonDatHang donDat = new DonDatHang();
+                    donDat = db.DonDatHangs.Where(x => x.TaiKhoanDatHangID == id && x.TinhTrang == 0).FirstOrDefault();
+                    int? soluong = 0;
+                    foreach (var i in donDat.ChiTietDonDatHangs)
+                    {
+                        soluong = soluong + i.SoLuong;
+                    }
+                    Session["soluong"] = soluong;
+                    return RedirectToAction("DetailProductView", new { sanPhamID = SanPhamID });
+                }
+
+            }
+        }
+
+        public ActionResult DatHang(DateTime? henTu, DateTime? henDen, string ghiChu)
+        {
+
+            using (var db = new BanHangEntity())
+            {
+                if (Session["username"] == null)
+                {
+                    return RedirectToAction("/Index", "Users");
+                }
+                else
+                {
+                    int id = (int)Session["usernameid"];
+                    //var lstSanPham = db.SanPhams.Include(x => x.ChiTietDonDatHangs).ToList();
+                    var donDatHang = db.DonDatHangs.Where(x => x.TaiKhoanDatHangID == id && x.TinhTrang == 0).FirstOrDefault();
+                    //var chiTiet = db.ChiTietDonDatHangs.Where(x => x.SanPhamID == SanPhamID).FirstOrDefault();
+                    if (donDatHang != null)
+                    {
+                        if (henTu.HasValue && henDen.HasValue && String.IsNullOrEmpty(ghiChu))
+                        {
+                            donDatHang.TinhTrang = 1;
+                            donDatHang.HenLayTu = henTu;
+                            donDatHang.HenLayDen = henDen;
+                            db.Entry(donDatHang).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        else if (!henTu.HasValue && henDen.HasValue && String.IsNullOrEmpty(ghiChu))
+                        {
+                            donDatHang.TinhTrang = 1;
+                            donDatHang.HenLayDen = henDen;
+                            db.Entry(donDatHang).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        else if (henTu.HasValue && !henDen.HasValue && String.IsNullOrEmpty(ghiChu))
+                        {
+                            donDatHang.TinhTrang = 1;
+                            donDatHang.HenLayTu = henTu;
+                            db.Entry(donDatHang).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        else if (!henTu.HasValue && !henDen.HasValue && String.IsNullOrEmpty(ghiChu))
+                        {
+                            donDatHang.TinhTrang = 1;
+                            db.Entry(donDatHang).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        else if (!henTu.HasValue && henDen.HasValue && (!String.IsNullOrEmpty(ghiChu)))
+                        {
+                            donDatHang.TinhTrang = 1;
+                            donDatHang.GhiChu = ghiChu;
+                            donDatHang.HenLayDen = henDen;
+                            db.Entry(donDatHang).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        else if (henTu.HasValue && !henDen.HasValue && (!String.IsNullOrEmpty(ghiChu)))
+                        {
+                            donDatHang.TinhTrang = 1;
+                            donDatHang.GhiChu = ghiChu;
+                            donDatHang.HenLayTu = henTu;
+                            db.Entry(donDatHang).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        else if (!henTu.HasValue && !henDen.HasValue && (!String.IsNullOrEmpty(ghiChu)))
+                        {
+                            donDatHang.TinhTrang = 1;
+                            donDatHang.GhiChu = ghiChu;
+                            db.Entry(donDatHang).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        else if (henTu.HasValue && henDen.HasValue && (!String.IsNullOrEmpty(ghiChu)))
+                        {
+                            donDatHang.TinhTrang = 1;
+                            donDatHang.HenLayTu = henTu;
+                            donDatHang.HenLayDen = henDen;
+                            donDatHang.GhiChu = ghiChu;
+                            db.Entry(donDatHang).State = System.Data.Entity.EntityState.Modified;
+                            db.SaveChanges();
+                        }
+
+                    }
+                    Session["soluong"] = 0;
+                    return RedirectToAction("/Index", "Home");
+                }
+            }
+        }
+
         public ActionResult CartView()
         {
             using (var db = new BanHangEntity())
@@ -245,9 +396,24 @@ namespace WebBanHang.Controllers
         [HttpPost]
         public ActionResult Create(User us)
         {
-            return View();
-        }
+           
+                using (var db = new BanHangEntity())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        us.NgayLap = DateTime.Now;
+                        us.LoaiUser = 1;
+                        db.Users.Add(us);
+                        db.SaveChanges();
+                        return RedirectToAction("/Index","Users");
+                    }
+                    else
+                        return RedirectToAction("/Create", "Home");
 
+                }
+            
+
+        }
 
 
     }

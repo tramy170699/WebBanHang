@@ -1,7 +1,7 @@
 ﻿@using WebBanHang.Models.Entity;
 @inherits System.Web.Mvc.WebViewPage
 @{
-   
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -77,9 +77,20 @@
 
                     </span>
                 </a>
-                <a href="~/Home/Create" class="fav-nav"><img src="~/Content_Web/img/core-img/favorites.png" alt="">Đăng ký</a>
 
+
+                <a href="~/Users/Index" class="fav-nav"><img src="~/Content_Web/img/core-img/favorites.png" alt="">Đăng Nhập</a>
+                <a href="~/Home/Create" class="fav-nav"><img src="~/Content_Web/img/core-img/favorites.png" alt="">Đăng ký</a>
+                <a onclick="LockOut()" href="#" class="fav-nav"><img src="~/Content_Web/img/core-img/favorites.png" alt="">Đăng xuất</a>
+                @*@{
+                         User u = (User)(Session["user"]);                        
+                        if (u.LoaiUser == 2)
+                        {
+                        <a href="~/LoaiSanPham/Index" class="search-nav"><img src="~/Content_Web/img/core-img/search.png" alt=""> Admin</a>
+                }
+                }*@
             </div>
+
         </header>
         <!-- Header Area End -->
         <!-- Product Catagories Area Start -->
