@@ -28,7 +28,79 @@
                             </tr>
                         </thead>
                         <tbody>
-                          
+                            @{
+                                if (donDatHang != null)
+                                {
+                                    foreach (var i in donDatHang)
+                                    {
+                                        var stt = donDatHang.ToList().IndexOf(i) + 1;
+                                        <tr>
+                                            <td style="max-width:5%">@stt</td>
+                                            <td class="cart_product_desc" style="max-width:18%">
+                                                <h5>@i.SoHieuDon</h5>
+                                            </td>
+                                            <td class="price">
+                                                <span>@i.NgayDat</span>
+                                            </td>
+                                            @{
+                                                var soLuong = i.ChiTietDonDatHangs;
+                                                double? giaban;
+                                                if (soLuong != null)
+                                                {
+                                                    giaban = soLuong.Select(x => x.SoLuong).FirstOrDefault() * soLuong.Select(x => x.GiaXuat).FirstOrDefault();
+                                                }
+                                                else
+                                                {
+                                                    giaban = 0;
+                                                }
+                                            }
+                                            <td class="quantity" style="max-width:10%">
+                                                <span>@giaban đ</span>
+                                            </td>
+                                            @{
+                                                var trangThai = "";
+                                                if (i.TinhTrang == 0)
+                                                {
+                                                    trangThai = "Chưa đặt hàng";
+                                                }
+                                                if (i.TinhTrang == 1)
+                                                {
+                                                    trangThai = "Đã đặt hàng";
+                                                }
+                                                if (i.TinhTrang == 2)
+                                                {
+                                                    trangThai = "Đã nhận đơn(đang xử lý)";
+                                                }
+                                                if (i.TinhTrang == 3)
+                                                {
+                                                    trangThai = "Chưa thanh toán";
+                                                }
+                                                if (i.TinhTrang == 4)
+                                                {
+                                                    trangThai = "Hoàn thành";
+                                                }
+
+                                            }
+                                            <td class="quantity" style="max-width:15%">
+                                                <span>@trangThai</span>
+                                            </td>
+                                            <td class="quantity" style="max-width:15%">
+                                                <span>@i.GhiChu</span>
+                                            </td>
+                                            @{
+                                                var url = "/Home/ChiTietDon?donDatHangID=" + i.DonDatHangID;
+                                            }
+                                            <td class="huy" style="max-width:20%">
+                                                <a href="@url" class="fav-nav"><img src="~/Content_Web/img/core-img/eye_1-512.png" alt=""></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <div>Không đơn nào</div>
+                                }
+                            }
                         </tbody>
                     </table>
                 </div>
