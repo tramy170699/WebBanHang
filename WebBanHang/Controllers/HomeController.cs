@@ -396,9 +396,24 @@ namespace WebBanHang.Controllers
         [HttpPost]
         public ActionResult Create(User us)
         {
-            return View();
-        }
+           
+                using (var db = new BanHangEntity())
+                {
+                    if (ModelState.IsValid)
+                    {
+                        us.NgayLap = DateTime.Now;
+                        us.LoaiUser = 1;
+                        db.Users.Add(us);
+                        db.SaveChanges();
+                        return RedirectToAction("/Index","Users");
+                    }
+                    else
+                        return RedirectToAction("/Create", "Home");
 
+                }
+            
+
+        }
 
 
     }
