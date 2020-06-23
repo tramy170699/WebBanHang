@@ -184,9 +184,43 @@ namespace WebBanHang.Controllers
         }
         public ActionResult CartView()
         {
-            return View();
+            using (var db = new BanHangEntity())
+            {
+                // Nếu chưa đăng nhập thì trả về trang đăng nhập
+                if (Session["username"] == null)
+                {
+                    return RedirectToAction("/Index", "Users");
+                }
+                // Nếu đăng nhập rồi thì hiển thị danh sách hàng trong giỏ
+                else
+                {
+                    int id = (int)Session["usernameid"];  // Session chứa id của tài khoản đăng nhập
+                    var lstSanPham = db.ChiTietDonDatHangs.Include(x => x.SanPham).ToList();
+                    var donDatHang = db.DonDatHangs.Where(x => x.TaiKhoanDatHangID == id && x.TinhTrang == 0).FirstOrDefault();
+                    if (donDatHang != null)
+                    {
+                        lstSanPham = lstSanPham.Where(x => x.DonDatHangID == donDatHang.DonDatHangID).ToList();
+                    }
+                    else
+                    {
+                        lstSanPham = null;
+                    }
+                    double? TongTien = 0;
+                    if (donDatHang != null)
+                    {
+                        foreach (var i in donDatHang.ChiTietDonDatHangs)
+                        {
+                            TongTien = TongTien + (i.GiaXuat * i.SoLuong);
+
+                        }
+                    }
+                    ViewBag.TongTien = TongTien;
+                    //ViewBag.lstSanPham = lstSanPham;
+                    return View(lstSanPham);
+                }
+            }
         }
-        
+
         public ActionResult DeleteItem()
         {
             return View();
