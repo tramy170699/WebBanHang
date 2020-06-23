@@ -145,42 +145,42 @@ namespace WebBanHang.Controllers
         {
             using (var db = new BanHangEntity())
             {
-                //if (Session["username"] == null)
-                //{
-                //    return RedirectToAction("/Index", "Users");
-                //}
-                //else
-                //{
-                //    int id = (int)Session["usernameid"];
-                //    var donDatHang = db.DonDatHangs.Include(x => x.ChiTietDonDatHangs.Select(y => y.SanPham)).Where(x => x.TaiKhoanDatHangID == id).ToList();
-                //    ViewBag.donDatHang = donDatHang;
+                if (Session["username"] == null)
+                {
+                    return RedirectToAction("/Index", "Users");
+                }
+                else
+                {
+                    int id = (int)Session["usernameid"];
+                    var donDatHang = db.DonDatHangs.Include(x => x.ChiTietDonDatHangs.Select(y => y.SanPham)).Where(x => x.TaiKhoanDatHangID == id).ToList();
+                    ViewBag.donDatHang = donDatHang;
                     return View();
-                //}
             }
+        }
         }
         public ActionResult ChiTietDon(int donDatHangID)
         {
             using (var db = new BanHangEntity())
             {
-                //if (Session["username"] == null)
-                //{
-                //    return RedirectToAction("/Index", "Users");
-                //}
-                //else
-                //{
+                if (Session["username"] == null)
+                {
+                    return RedirectToAction("/Index", "Users");
+                }
+                else
+                {
                     var donDatHang = db.DonDatHangs.Include(y => y.ChiTietDonDatHangs.Select(z => z.SanPham)).Where(x => x.DonDatHangID == donDatHangID).FirstOrDefault();
-                    //ListSanPham lstSP = new ListSanPham();
-                    //foreach(var i in donDatHang.ChiTietDonDatHangs)
-                    //{
-                    //    SanPham sp = i.SanPham;
-                    //    lstSP.SanPhams.Add(sp);
-                    //    lstSP.SoLuong = i.SoLuong;
+                ListSanPham lstSP = new ListSanPham();
+                foreach (var i in donDatHang.ChiTietDonDatHangs)
+                {
+                    SanPham sp = i.SanPham;
+                    lstSP.SanPhams.Add(sp);
+                    lstSP.SoLuong = i.SoLuong;
 
-                    //}
-                    ViewBag.donDatHang = donDatHang;
+                }
+                ViewBag.donDatHang = donDatHang;
                     return View();
-                //}
             }
+        }
         }
         [HttpPost]
         public ActionResult Cart(int SanPhamID, int SoLuong)
