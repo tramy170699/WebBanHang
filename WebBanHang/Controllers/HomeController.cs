@@ -111,14 +111,14 @@ namespace WebBanHang.Controllers
 
         public ActionResult DetailProductView(int sanPhamID)
         {
-            //if (Session["username"] == null)
-            //    return RedirectToAction("/Index", "Users");
-            //else
-            //{
+            if (Session["username"] == null)
+                return RedirectToAction("/index", "users");
+            else
+            {
                 var sanPham = db.SanPhams.Include(x => x.NhaCungCap).Include(x => x.ThuocTinhSanPhams.Select(y => y.ThuocTinh)).Where(x => x.SanPhamID == sanPhamID).FirstOrDefault();
                 ViewBag.sanPham = sanPham;
                 return View(sanPham);
-            //}
+            }
 
         }
         [HttpPost]
@@ -169,18 +169,18 @@ namespace WebBanHang.Controllers
                 else
                 {
                     var donDatHang = db.DonDatHangs.Include(y => y.ChiTietDonDatHangs.Select(z => z.SanPham)).Where(x => x.DonDatHangID == donDatHangID).FirstOrDefault();
-                ListSanPham lstSP = new ListSanPham();
-                foreach (var i in donDatHang.ChiTietDonDatHangs)
-                {
-                    SanPham sp = i.SanPham;
-                    lstSP.SanPhams.Add(sp);
-                    lstSP.SoLuong = i.SoLuong;
+                    //ListSanPham lstSP = new ListSanPham();
+                    //foreach(var i in donDatHang.ChiTietDonDatHangs)
+                    //{
+                    //    SanPham sp = i.SanPham;
+                    //    lstSP.SanPhams.Add(sp);
+                    //    lstSP.SoLuong = i.SoLuong;
 
-                }
-                ViewBag.donDatHang = donDatHang;
+                    //}
+                    ViewBag.donDatHang = donDatHang;
                     return View();
+                }
             }
-        }
         }
         [HttpPost]
         public ActionResult Cart(int SanPhamID, int SoLuong)
